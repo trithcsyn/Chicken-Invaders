@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1676707013 source:c:\users\admin\desktop\sdl project 2023\project\sdl_utils.cpp
+	"SDL_utils.h"
+
+1676647552 c:\users\admin\desktop\sdl project 2023\project\sdl_utils.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1676789902 source:c:\users\admin\desktop\sdl project 2023\project\main.cpp
+	<iostream>
+	<SDL.h>
+	"SDL_utils.h"
+
+1677491483 source:c:\users\admin\desktop\sdl project 2023\project test\main.cpp
+	<iostream>
+	<SDL.h>
+	"SDL_utils.h"
+	"game_constans.h"
+
+1677491139 c:\users\admin\desktop\sdl project 2023\project test\sdl_utils.h
+	<iostream>
+	<SDL.h>
+	<vector>
+	<SDL_image.h>
+	"game_constans.h"
+
+1677492155 source:c:\users\admin\desktop\sdl project 2023\project test\sdl_utils.cpp
+	"SDL_utils.h"
+
+1677480498 c:\users\admin\desktop\sdl project 2023\project test\game_constans.h
+
