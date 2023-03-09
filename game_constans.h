@@ -4,6 +4,11 @@
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char WINDOW_TITLE[] = "Chicken";
+//background
+const int SPEED_OF_BACKGROUND = 2;
+//bullet
+const int SPEED_OF_BULLET = 7;
+const Uint32 DELAY_BULLET = 50;
 
 //player ship image
 const int PLAYER_MID = 0;
@@ -11,6 +16,11 @@ const int PLAYER_LEFT = 1;
 const int PLAYER_RIGHT = 2;
 const int PLAYER_LEFTMID = 3;
 const int PLAYER_RIGHTMID = 4;
+
+
+const int LEFT_EDGE = 36;
+const int RIGHT_EDGE = 764;
+const int TOP_EDGE = 30;
 
 //Color:
 const SDL_Color CYAN_COLOR = {0, 255, 255};

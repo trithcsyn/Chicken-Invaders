@@ -1,114 +1,20 @@
 #include "SDL_utils.h"
-
-
-//*****************************************************
-// Struct
-struct Position{
-    int x, y, w, h;
-
-    Position(int x, int y, int w = 0, int h = 0){
-        this->x = x;
-        this->y = y;
-        this->w = w;
-        this->h = h;
-    }
-
-};
-
-//*****************************************************
-//Variable
-SDL_Window* window;
-SDL_Renderer* renderer;
-
-SDL_Texture* backGround;
-SDL_Rect clipBackground;
-
-SDL_Texture* playerIMG[5];
-Position player(SCREEN_WIDTH/2 - 84/2, SCREEN_HEIGHT - 90, 74 , 84);
-int preMove = -1;
-
-SDL_Texture* bulletIMG;
-vector<Position> bullet;
-
-
+#include"game_constans.h"
 
 //*****************************************************
 // Các hàm chung về khởi tạo và huỷ SDL
 
-void updateBullet(){
-    bullet.push_back({player.x + 32, player.y + -37});
-}
-
-void renderBullet(){
-    for(int i = 0; i < (int)bullet.size(); i++){
-        if(bullet[i].y > 0){
-        renderTexture(bulletIMG, bullet[i].x, bullet[i].y);
-        bullet[i].y -= 5;
-        }
-        else {
-                bullet.erase(bullet.begin() + i);
-                i--;
-        }
+void logSDLError(std::ostream& os, const std::string &msg, bool fatal)
+{
+    os << msg << " Error: " << SDL_GetError() << std::endl;
+    if (fatal) {
+        SDL_Quit();
+        exit(1);
     }
 }
 
-
-void renderPlayer(){
-    if(preMove == -1) renderTexture(playerIMG[PLAYER_MID], player.x, player.y);
-        else{
-            if(player.x - preMove > 30) renderTexture(playerIMG[PLAYER_RIGHT], player.x, player.y);
-            if(preMove - player.x > 30) renderTexture(playerIMG[PLAYER_LEFT], player.x, player.y);
-            if(player.x - preMove <= 30 && player.x > preMove) renderTexture(playerIMG[PLAYER_RIGHTMID], player.x, player.y);
-            if(preMove - player.x <= 30 && preMove > player.x) renderTexture(playerIMG[PLAYER_LEFTMID], player.x, player.y);
-            if(preMove == player.x) renderTexture(playerIMG[PLAYER_MID], player.x, player.y);
-        }
-}
-
-void updatePositionPlayer(){
-    preMove = player.x;
-    SDL_GetMouseState(&player.x, &player.y);
-    player.x -= 37;
-    player.y -= 84;
-}
-
-void renderScreen(){
-    SDL_RenderPresent(renderer);
-}
-
-void load_SDL_IMG(){
-    initSDL( SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
-
-    bulletIMG = loadTexture("imagesource/bullet.png");
-    if(bulletIMG == nullptr) logSDLError(std :: cout, "loadBullet");
-
-    clipBackground.x = 0;
-    clipBackground.y = 1200;
-    clipBackground.w = SCREEN_WIDTH;
-    clipBackground.h = SCREEN_HEIGHT;
-
-    backGround = loadTexture("imagesource/background.png");
-    if(backGround == nullptr) logSDLError(std::cout,"loadBackground", true );
-    else{
-        playerIMG[PLAYER_MID] = loadTexture("imagesource/player_ship.png");
-        playerIMG[PLAYER_LEFT] = loadTexture("imagesource/player_ship_left.png");
-        playerIMG[PLAYER_RIGHT] = loadTexture("imagesource/player_ship_right.png");
-        playerIMG[PLAYER_LEFTMID] = loadTexture("imagesource/player_ship_leftmid.png");
-        playerIMG[PLAYER_RIGHTMID] = loadTexture("imagesource/player_ship_rightmid.png");
-        for(int i = 0; i < 5; i++){
-            if(playerIMG[i] == nullptr){
-                logSDLError(std :: cout, "loadPlayerShip", true);
-                break;
-            }
-        }
-    }
-}
-
-void renderBackground(){
-    SDL_RenderCopy(renderer, backGround, &clipBackground, NULL);
-    clipBackground.y = (clipBackground.y - 1 + 1200)% 1200;
-}
-
-void initSDL(int screenWidth, int screenHeight, const char* windowTitle)
+void initSDL(SDL_Window* &window, SDL_Renderer* &renderer,
+	int screenWidth, int screenHeight, const char* windowTitle)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         logSDLError(std::cout, "SDL_Init", true);
@@ -127,20 +33,11 @@ void initSDL(int screenWidth, int screenHeight, const char* windowTitle)
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
+
+
 }
 
-void logSDLError(std::ostream& os,
-                 const std::string &msg, bool fatal)
-{
-    os << msg << " Error: " << SDL_GetError() << std::endl;
-    if (fatal) {
-        SDL_Quit();
-        exit(1);
-    }
-}
-
-
-void quitSDL()
+void quitSDL(SDL_Window* window, SDL_Renderer* renderer)
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -164,7 +61,7 @@ void waitUntilKeyPressed()
 * @param ren: renderer để nạp texture lên
 * @return trả về texture đã nạp, hoặc nullptr nếu có lỗi.
 */
-SDL_Texture* loadTexture(const std::string &file)
+SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren)
 {
 	//Khởi tạo là nullptr để tránh lỗi 'dangling pointer'
 	SDL_Texture *texture = nullptr;
@@ -172,7 +69,7 @@ SDL_Texture* loadTexture(const std::string &file)
 	SDL_Surface *loadedImage = IMG_Load(file.c_str());
 	//Nếu không có lỗi, chuyển đổi về dạng texture and và trả về
 	if (loadedImage != nullptr){
-		texture = SDL_CreateTextureFromSurface(renderer, loadedImage);
+		texture = SDL_CreateTextureFromSurface(ren, loadedImage);
 		SDL_FreeSurface(loadedImage);
 		//Đảm bảo việc chuyển đổi không có lỗi
 		if (texture == nullptr){
@@ -193,7 +90,7 @@ SDL_Texture* loadTexture(const std::string &file)
 * @param x: hoành độ
 * @param y: tung độ
 */
-void renderTexture(SDL_Texture *tex, int x, int y)
+void renderTexture(SDL_Texture *tex, SDL_Renderer *ren,const int &x,const int &y)
 {
 	//Thiết lập hình chữ nhật đích mà chúng ta muốn vẽ ảnh vào trong
 	SDL_Rect dst;
@@ -202,7 +99,7 @@ void renderTexture(SDL_Texture *tex, int x, int y)
 	//Truy vẫn texture để lấy chiều rộng và cao (vào chiều rộng và cao tương ứng của hình chữ nhật đích)
 	SDL_QueryTexture(tex, NULL, NULL, &dst.w, &dst.h);
     //Đưa toàn bộ ảnh trong texture vào hình chữ nhật đích
-	SDL_RenderCopy(renderer, tex, NULL, &dst);
+	SDL_RenderCopy(ren, tex, NULL, &dst);
 }
 
 /**
@@ -215,7 +112,7 @@ void renderTexture(SDL_Texture *tex, int x, int y)
 * @param w: chiều rộng (mới)
 * @param h: độ cao (mới)
 */
-void renderTexture(SDL_Texture *tex, int x, int y, int w, int h)
+void renderTexture(SDL_Texture *tex, SDL_Renderer *ren,const int &x,const int &y,const int &w,const int &h)
 {
 	//Thiết lập hình chữ nhật đích mà chúng ta muốn vẽ ảnh vào trong
 	SDL_Rect dst;
@@ -225,5 +122,5 @@ void renderTexture(SDL_Texture *tex, int x, int y, int w, int h)
     dst.h = h;
     //Đưa toàn bộ ảnh trong texture vào hình chữ nhật đích
     //(ảnh sẽ co dãn cho khớp với kích cỡ mới)
-	SDL_RenderCopy(renderer, tex, NULL, &dst);
+	SDL_RenderCopy(ren, tex, NULL, &dst);
 }

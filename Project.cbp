@@ -35,6 +35,7 @@
 		<Unit filename="SDL_utils.cpp" />
 		<Unit filename="SDL_utils.h" />
 		<Unit filename="game_constans.h" />
+		<Unit filename="game_object.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
