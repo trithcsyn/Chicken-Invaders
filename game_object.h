@@ -8,25 +8,24 @@ using namespace std;
 
 //*********************************************
 
-class Position{
-public:
-    int x, y;
-};
 
-class PosChicken{
+class RectChicken{
 public:
-    int x, y, ani, hp;
+    SDL_Rect hitBox;
+    int ani;
+    int hp;
 };
 
 class PlayerShip{
 public:
+    SDL_Texture* explosionIMG[5];
     SDL_Texture* playerIMG[5];
-    Position pos;
+    SDL_Rect ship;
     int hp;
-    const int w = 74, h = 84;
     PlayerShip(SDL_Renderer* renderer, int x_, int y_, int hp_);
     void renderPlayer(SDL_Renderer* renderer);
     void updatePositionPlayer();
+    void renderDeadPlayer(SDL_Renderer *renderer);
 };
 
 class Background{
@@ -41,8 +40,7 @@ public:
 class Bullet{
 public:
     SDL_Texture* bulletIMG;
-    vector<Position> pos;
-
+    vector<SDL_Rect> bullet;
     Bullet(SDL_Renderer* renderer);
     void addBullet(const int &posPlayerX, const int &posPlayerY);
     void renderBullet(SDL_Renderer* renderer);
@@ -51,19 +49,27 @@ public:
 class Chicken{
 public:
     SDL_Texture* chickenIMG[10];
-    vector<PosChicken> pos;
+    SDL_Texture* chickenExIMG[3];
+    vector<vector<RectChicken>> chicken;
+    vector<RectChicken> deadChicken;
     const int w = 104, h = 82;
     int vx;
 
+
     Chicken(SDL_Renderer* renderer);
     void renderChicken(SDL_Renderer* renderer);
+    void renderDeadChicken(SDL_Renderer* renderer);
+    void checkCollision(vector<SDL_Rect> &bullet);
+
 };
 
 //**********************************************
 
 PlayerShip::PlayerShip(SDL_Renderer* renderer, int x_, int y_, int hp_){
-    pos.x = x_;
-    pos.y = y_;
+    ship.x = x_;
+    ship.y = y_;
+    ship.w = 74;
+    ship.h = 84;
     hp = hp_;
     playerIMG[PLAYER_MID] = loadTexture("imagesource/player_ship.png", renderer);
     playerIMG[PLAYER_LEFT] = loadTexture("imagesource/player_ship_left.png", renderer);
@@ -76,25 +82,36 @@ PlayerShip::PlayerShip(SDL_Renderer* renderer, int x_, int y_, int hp_){
             break;
         }
     }
+    explosionIMG[0] = loadTexture("imagesource/Explosion/explosion-1.png", renderer);
+    explosionIMG[1] = loadTexture("imagesource/Explosion/explosion-2.png", renderer);
+    explosionIMG[2] = loadTexture("imagesource/Explosion/explosion-3.png", renderer);
+    explosionIMG[3] = loadTexture("imagesource/Explosion/explosion-4.png", renderer);
+    explosionIMG[4] = loadTexture("imagesource/Explosion/explosion-5.png", renderer);
+    for(int i = 0; i < 5; i++){
+        if(explosionIMG[i] == nullptr){
+            logSDLError(cout, "loadExplosion", true);
+            break;
+        }
+    }
 }
 
 void PlayerShip::renderPlayer(SDL_Renderer* renderer){
         static int preMove = -1;
-        if(preMove == -1) renderTexture(playerIMG[PLAYER_MID], renderer, pos.x, pos.y);
+        if(preMove == -1) SDL_RenderCopy(renderer, playerIMG[PLAYER_MID], NULL, &ship);
         else{
-        if(pos.x - preMove > 30) renderTexture(playerIMG[PLAYER_RIGHT],renderer, pos.x, pos.y);
-        if(preMove - pos.x > 30) renderTexture(playerIMG[PLAYER_LEFT], renderer, pos.x, pos.y);
-        if(pos.x - preMove <= 30 && pos.x > preMove) renderTexture(playerIMG[PLAYER_RIGHTMID], renderer, pos.x, pos.y);
-        if(preMove - pos.x <= 30 && preMove > pos.x) renderTexture(playerIMG[PLAYER_LEFTMID], renderer, pos.x, pos.y);
-        if(preMove == pos.x) renderTexture(playerIMG[PLAYER_MID], renderer, pos.x, pos.y);
+        if(ship.x - preMove > 30) SDL_RenderCopy(renderer, playerIMG[PLAYER_RIGHT], NULL, &ship);
+        if(preMove - ship.x > 30) SDL_RenderCopy(renderer, playerIMG[PLAYER_LEFT], NULL, &ship);
+        if(ship.x - preMove <= 30 && ship.x > preMove) SDL_RenderCopy(renderer, playerIMG[PLAYER_RIGHTMID], NULL, &ship);
+        if(preMove - ship.x <= 30 && preMove > ship.x) SDL_RenderCopy(renderer, playerIMG[PLAYER_LEFTMID], NULL, &ship);
+        if(preMove == ship.x) SDL_RenderCopy(renderer, playerIMG[PLAYER_MID], NULL, &ship);
     }
-    preMove = pos.x;
+    preMove = ship.x;
 }
 
 void PlayerShip::updatePositionPlayer(){
-    SDL_GetMouseState(&pos.x, &pos.y);
-    pos.x -= 37;
-    pos.y -= 84;
+    SDL_GetMouseState(&ship.x, &ship.y);
+    ship.x -= 37;
+    ship.y -= 84;
 }
 
 Background::Background(SDL_Renderer* renderer){
@@ -119,19 +136,19 @@ void Bullet ::addBullet(const int &posPlayerX, const int &posPlayerY){
     static Uint32 lastTime = SDL_GetTicks();
     Uint32 currentTime = SDL_GetTicks();
     if(currentTime - lastTime >= DELAY_BULLET || currentTime == lastTime){
-        pos.push_back({posPlayerX + 32, posPlayerY - 37});
+        bullet.push_back({posPlayerX + 32, posPlayerY - 37, 10, 37});
         lastTime = currentTime;
     }
 }
 
 void Bullet:: renderBullet(SDL_Renderer* renderer){
-    for(int i = 0; i < (int)pos.size(); i++){
-        if(pos[i].y > 0){
-            renderTexture(bulletIMG, renderer, pos[i].x, pos[i].y);
-            pos[i].y -= SPEED_OF_BULLET;
+    for(int i = 0; i < (int)bullet.size(); i++){
+        if(bullet[i].y > 0){
+            SDL_RenderCopy(renderer, bulletIMG, NULL, &bullet[i]);
+            bullet[i].y -= SPEED_OF_BULLET;
         }
         else{
-            pos.erase(pos.begin() + i);
+            bullet.erase(bullet.begin() + i);
             i--;
         }
     }
@@ -155,10 +172,19 @@ Chicken::Chicken(SDL_Renderer* renderer){
             break;
         }
     }
+    chickenExIMG[0] = loadTexture("imagesource/Chicken/Explosion/chickenExplosion1.png", renderer);
+    chickenExIMG[1] = loadTexture("imagesource/Chicken/Explosion/chickenExplosion2.png", renderer);
+    chickenExIMG[2] = loadTexture("imagesource/Chicken/Explosion/chickenExplosion3.png", renderer);
     srand(time(0));
-    for(int j = 0; j < 6; j++){
-        for(int i = 0; i < 4; i++){
-            pos.push_back({LEFT_EDGE + w * j, TOP_EDGE + h * i , (rand() % 10) * 4 , 1});
+    chicken.resize(6);
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 4; j++){
+            SDL_Rect temp;
+            temp.x = LEFT_EDGE + w * i + 31;
+            temp.y = TOP_EDGE + h * j ;
+            temp.w = 42;
+            temp.h = 82;
+            chicken[i].push_back({temp, (rand() % 10) * 4, 1});
         }
     }
     vx = 1;
@@ -166,22 +192,54 @@ Chicken::Chicken(SDL_Renderer* renderer){
 
 void Chicken::renderChicken(SDL_Renderer* renderer){
     bool checkEdge = false;
-    for(int i = 0; i < (int)pos.size(); i++){
-        renderTexture(chickenIMG[ pos[i].ani/4 ], renderer, pos[i].x, pos[i].y, w, h);
-        pos[i].ani = (pos[i].ani + 1) % 40;
-        pos[i].x += vx;
+    for(int i = 0; i < (int)chicken.size(); i++)
+    for(int j = 0; j < (int)chicken[i].size(); j++){
+        if(chicken[i][j].hp == 0){
+            deadChicken.push_back({{chicken[i][j].hitBox.x - 31, chicken[i][j].hitBox.y, 104, 82}, 0, 0});
+            chicken[i].erase(chicken[i].begin() + j);
+        }
+        renderTexture(chickenIMG[ (chicken[i][j].ani)/4 ], renderer, chicken[i][j].hitBox.x - 31, chicken[i][j].hitBox.y, w, h);
+        chicken[i][j].ani = (chicken[i][j].ani + 1) % 40;
+        chicken[i][j].hitBox.x += vx;
         if(!checkEdge)
-        if(pos[i].x <= LEFT_EDGE || pos[i].x >= RIGHT_EDGE - w){
+        if(chicken[i][j].hitBox.x - 31 <= LEFT_EDGE || chicken[i][j].hitBox.x - 31 >= RIGHT_EDGE - w){
             checkEdge = true;
         }
     }
     if(checkEdge){
         vx = -vx;
     }
-
 }
 
+void Chicken::renderDeadChicken(SDL_Renderer* renderer){
+    for(int i = 0; i < (int)deadChicken.size(); i++){
+        if(deadChicken[i].ani == 12){
+        deadChicken.erase(deadChicken.begin() + i);
+        }
+        SDL_RenderCopy(renderer, chickenExIMG[deadChicken[i].ani / 4], NULL, &deadChicken[i].hitBox);
+        deadChicken[i].ani++;
+    }
+}
 
+void Chicken::checkCollision(vector<SDL_Rect> &bullet){
+    for(int i = 0; i < (int)chicken.size(); i++){
+        for(int j = chicken[i].size() - 1; j >= 0; j--){
+             for(int k = 0; k < (int)bullet.size(); k++){
+                if(SDL_HasIntersection(&chicken[i][j].hitBox, &bullet[k])){
+                        chicken[i][j].hp--;
+                        bullet.erase(bullet.begin() + k);
+                        break;
+                   }
+             }
+        }
+    }
+}
 
+void PlayerShip:: renderDeadPlayer(SDL_Renderer *renderer){
+    static int ani = 0;
+    if(ani == 25) hp = -1;
+    SDL_RenderCopy(renderer, explosionIMG[ani/5], NULL, &ship);
+    ani++;
+}
 
 #endif // GAME_OBJECT_H_INCLUDED

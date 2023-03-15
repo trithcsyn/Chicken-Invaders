@@ -1,10 +1,11 @@
-
 #ifndef SDL_UTILS_H
 #define SDL_UTILS_H
 
-#include <iostream>
+#include<iostream>
 #include <SDL.h>
 #include<SDL_image.h>
+
+
 void logSDLError(std::ostream& os,
                  const std::string &msg, bool fatal = false);
 

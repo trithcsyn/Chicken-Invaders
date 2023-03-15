@@ -4,6 +4,8 @@
 //*****************************************************
 // Các hàm chung về khởi tạo và huỷ SDL
 
+
+
 void logSDLError(std::ostream& os, const std::string &msg, bool fatal)
 {
     os << msg << " Error: " << SDL_GetError() << std::endl;
