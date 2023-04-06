@@ -5,10 +5,10 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const char WINDOW_TITLE[] = "Chicken";
 //background
-const int SPEED_OF_BACKGROUND = 2;
+const int SPEED_OF_BACKGROUND = 1;
 //bullet
 const int SPEED_OF_BULLET = 7;
-const Uint32 DELAY_BULLET = 50;
+const Uint32 DELAY_BULLET = 200;
 
 //player ship image
 const int PLAYER_MID = 0;

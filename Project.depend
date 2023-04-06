@@ -35,27 +35,25 @@
 
 1677480498 c:\users\admin\desktop\sdl project 2023\project\game_constans.h
 
-1678865529 source:c:\users\admin\desktop\sdl project 2023\project1.2\main.cpp
-	<iostream>
-	<SDL.h>
+1680765536 source:c:\users\admin\desktop\sdl project 2023\project1.2\main.cpp
 	"SDL_utils.h"
 	"game_constans.h"
 	"game_object.h"
 
-1678851878 c:\users\admin\desktop\sdl project 2023\project1.2\sdl_utils.h
+1679234947 c:\users\admin\desktop\sdl project 2023\project1.2\sdl_utils.h
+	<vector>
+	<ctime>
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 
-1678345925 c:\users\admin\desktop\sdl project 2023\project1.2\game_constans.h
+1680761019 c:\users\admin\desktop\sdl project 2023\project1.2\game_constans.h
 
 1678851896 source:c:\users\admin\desktop\sdl project 2023\project1.2\sdl_utils.cpp
 	"SDL_utils.h"
 	"game_constans.h"
 
-1678865629 c:\users\admin\desktop\sdl project 2023\project1.2\game_object.h
-	<vector>
-	<ctime>
+1680769340 c:\users\admin\desktop\sdl project 2023\project1.2\game_object.h
 	"game_constans.h"
 	"SDL_utils.h"
 

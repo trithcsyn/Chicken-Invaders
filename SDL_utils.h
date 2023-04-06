@@ -1,6 +1,8 @@
 #ifndef SDL_UTILS_H
 #define SDL_UTILS_H
 
+#include<vector>
+#include<ctime>
 #include<iostream>
 #include <SDL.h>
 #include<SDL_image.h>
