@@ -1,0 +1,94 @@
+# depslib dependency file v1.0
+1681017442 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\sdl_utils.cpp
+	"SDL_utils.h"
+	"game_constans.h"
+
+1681043557 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\sdl_utils.h
+	<vector>
+	<ctime>
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<string>
+	<fstream>
+
+1680949732 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\game_constans.h
+	<SDL.h>
+
+1680966326 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\menu\menu.cpp
+	"menu.h"
+
+1681050036 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\menu\menu.h
+	"../Manager/Font.h"
+
+1680947141 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\background.cpp
+	"BackGround.h"
+
+1680946590 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\background.h
+	"../Manager/game_constans.h"
+	"../Manager/SDL_utils.h"
+
+1681049696 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\bullet.cpp
+	"Bullet.h"
+
+1680946650 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\bullet.h
+	"PlayerShip.h"
+	"../Manager/game_constans.h"
+	"../Manager/SDL_utils.h"
+
+1680946590 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\playership.h
+	"../Manager/SDL_utils.h"
+	"../Manager/game_constans.h"
+
+1680946543 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\chicken_invaders.cpp
+	"Source/Core/core.h"
+
+1680972535 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\core\core.h
+	"../Manager/SDL_utils.h"
+	"../Manager/game_constans.h"
+	"../Manager/Font.h"
+	"../Menu/menu.h"
+	"../Object/PlayerShip.h"
+	"../Object/BackGround.h"
+	"../Object/Bullet.h"
+	"../Object/Chicken.h"
+	"../Object/Egg.h"
+	"../Object/Gift.h"
+
+1680972479 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\chicken.h
+	"../Menu/menu.h"
+	"PlayerShip.h"
+	"Bullet.h"
+
+1680946214 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\egg.h
+	"Chicken.h"
+	"PlayerShip.h"
+
+1680946214 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\gift.h
+	"PlayerShip.h"
+
+1681049662 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\core\core.cpp
+	"core.h"
+
+1680976226 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\chicken.cpp
+	"Chicken.h"
+
+1680947160 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\egg.cpp
+	"Egg.h"
+
+1680947113 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\gift.cpp
+	"Gift.h"
+
+1680947113 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\playership.cpp
+	"PlayerShip.h"
+
+1681049905 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\font.h
+	"SDL_ttf.h"
+	"game_constans.h"
+	"SDL_utils.h"
+	<map>
+
+1681049905 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\font.cpp
+	"Font.h"
+
