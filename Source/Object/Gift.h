@@ -11,6 +11,5 @@ public:
     void init(SDL_Renderer* Renderer);
     void render(SDL_Renderer* Renderer);
     void checkCollision(PlayerShip &player, int &level);
-
 };
 #endif // GIFT_H

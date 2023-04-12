@@ -113,7 +113,7 @@ bool Chicken::checkCollision(Bullet &bullets){
 bool Chicken::checkCollision(PlayerShip &player){
     for(int i = 0; i < (int)chicken.size(); i++){
         if(SDL_HasIntersection(&chicken[i].hitBox, &player.hitBox)){
-            player.hp--;
+            player.hp = 0;
             return true;
         }
     }

@@ -18,11 +18,18 @@ void Text::render(SDL_Renderer* renderer, string textLine ,const int &x,const in
     if(texts.find(textLine) == texts.end()){
          texts.insert( make_pair(textLine, getTexture(textLine, renderer)) );
     }
+    static int fl = 0;
     SDL_Rect dst;
     dst.x = x;
     dst.y = y;
     SDL_QueryTexture(texts[textLine], NULL, NULL, &dst.w, &dst.h);
     dst.w *= k;
     dst.h *= k;
-    SDL_RenderCopy(renderer, texts[textLine], NULL, &dst);
+    if(flash){
+        if( (fl++)%30 >= 15 ){
+            SDL_RenderCopy(renderer, texts[textLine], NULL, &dst);
+        }
+    }
+    else SDL_RenderCopy(renderer, texts[textLine], NULL, &dst);
 }
+

@@ -3,7 +3,7 @@
 
 #include"../Manager/SDL_utils.h"
 #include"../Manager/game_constans.h"
-
+#include"../Menu/menu.h"
 class PlayerShip{
 public:
     SDL_Texture* smallExplosion[2];
@@ -18,7 +18,7 @@ public:
     void render(SDL_Renderer* renderer);
     void updatePos();
     bool renderGetDame(SDL_Renderer *renderer);
-    bool renderDead(SDL_Renderer* renderer);
+    bool renderDead(SDL_Renderer* renderer, Interface &itf, SDL_Event &e);
 };
 
 #endif // PLAYERSHIP_H_INCLUDED

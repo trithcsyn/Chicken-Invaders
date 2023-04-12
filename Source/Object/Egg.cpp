@@ -25,6 +25,7 @@ bool Egg::checkCollision(PlayerShip &player, int &level){
     bool check = false;
     for(int i = 0; i < (int)eggs.size(); i++){
         if(SDL_HasIntersection(&eggs[i].hitBox, &player.hitBox)){
+            player.getdame = true;
             eggs.erase(eggs.begin() + i);
             i--;
             player.hp--;

@@ -16,54 +16,61 @@ void Core::init(){
 }
 
 int Core::runGame(){
-    bool play = false;
+    bool play = false, startMenu = true, quit = false;
     while(true){
-        while(sMenu.status){
+        while(startMenu){
+            while(SDL_PollEvent(&e)){
+                if(e.type == SDL_QUIT) return 0;
+                break;
+            }
             background.render(renderer);
             sMenu.render(renderer);
             sMenu.getHighLight(renderer);
-            while(SDL_PollEvent(&e) != 0){
-                if(e.type == SDL_QUIT) return 0;
-                if(e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT){
-                    SDL_Point click = {e.motion.x, e.motion.y};
-                    if(SDL_PointInRect(&click, &sMenu.play)){
-                        play = true;
-                        sMenu.status = false;
-                    }
-                    if(SDL_PointInRect(&click, &sMenu.quit)) return 0;
-                }
-            }
+            sMenu.check(e, play, startMenu, quit);
             SDL_RenderPresent(renderer);
         }
         while(play){
+            SDL_Event e;
             background.render(renderer);
-            while(SDL_PollEvent(&e) != 0 ){
-                if(e.type == SDL_QUIT) return 0;
-                if(player.hp > 0 && e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT){
+            while(SDL_PollEvent(&e)){
+                if(e.type == SDL_QUIT){
+                    quit = true;
+                    play = false;
+                }
+                if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
+                     if(player.hp <= 0)
+                        if(player.renderDead(renderer, itf, e)){
+                            bullets.level = 1;
+                            player.hp = 5;
+                            chickens.chicken.clear();
+                            chickens.hp = 0;
+                            itf.saveScore();
+                        }
+                }
+                if(e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT){
                     bullets.adding = true;
                 }
-                if(player.hp > 0 && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT){
+                if(e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT){
                     bullets.adding = false;
                 }
             }
             if(player.hp > 0){
+                itf.renderScore(renderer);
                 bullets.add(player);
                 player.render(renderer);
-                if(eggs.checkCollision(player, bullets.level) || chickens.checkCollision(player)) player.getdame = true;
+                eggs.checkCollision(player, bullets.level);
+                chickens.checkCollision(player);
                 if(player.getdame){
                     if(player.renderGetDame(renderer)){
-                        player.getdame =false;
+                        player.getdame = false;
                     }
                 }
+                eggs.add(chickens.chicken);
             }
-            if(player.hp <= 0)
-            if(player.renderDead(renderer)){}
             giftt.render(renderer);
             giftt.checkCollision(player, bullets.level);
             bullets.render(renderer);
-            eggs.add(chickens.chicken);
             eggs.render(renderer);
-
             chickens.render(renderer, giftt.gifts, itf);
             chickens.renderDead(renderer);
             if(chickens.checkCollision(bullets)){
@@ -71,12 +78,16 @@ int Core::runGame(){
                 chickens.add();
                 chickens.adding = 1;
             }
-            itf.renderScore(renderer);
+            itf.renderHighScore(renderer);
             itf.renderHeart(renderer, player.hp);
+            if(player.hp <= 0) player.renderDead(renderer, itf, e);
             player.updatePos();
             SDL_RenderPresent(renderer);
         }
+        if(quit){
+            return 0;
+        }
     }
-    quitSDL(window, renderer);
     return 0;
 }
+

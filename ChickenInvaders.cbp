@@ -35,6 +35,7 @@
 		<Unit filename="Chicken_Invaders.cpp" />
 		<Unit filename="Source/Core/core.cpp" />
 		<Unit filename="Source/Core/core.h" />
+		<Unit filename="Source/Manager/Font.cpp" />
 		<Unit filename="Source/Manager/Font.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

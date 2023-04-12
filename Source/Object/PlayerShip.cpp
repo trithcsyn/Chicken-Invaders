@@ -29,10 +29,10 @@ void PlayerShip::render(SDL_Renderer* renderer){
         static int preMove = -1;
         if(preMove == -1) SDL_RenderCopy(renderer, playerIMG[PLAYER_MID], NULL, &ship);
         else{
-        if(ship.x - preMove > 30) SDL_RenderCopy(renderer, playerIMG[PLAYER_RIGHT], NULL, &ship);
-        if(preMove - ship.x > 30) SDL_RenderCopy(renderer, playerIMG[PLAYER_LEFT], NULL, &ship);
-        if(ship.x - preMove <= 30 && ship.x > preMove) SDL_RenderCopy(renderer, playerIMG[PLAYER_RIGHTMID], NULL, &ship);
-        if(preMove - ship.x <= 30 && preMove > ship.x) SDL_RenderCopy(renderer, playerIMG[PLAYER_LEFTMID], NULL, &ship);
+        if(ship.x - preMove > 40) SDL_RenderCopy(renderer, playerIMG[PLAYER_RIGHT], NULL, &ship);
+        if(preMove - ship.x > 40) SDL_RenderCopy(renderer, playerIMG[PLAYER_LEFT], NULL, &ship);
+        if(ship.x - preMove <= 40 && ship.x > preMove) SDL_RenderCopy(renderer, playerIMG[PLAYER_RIGHTMID], NULL, &ship);
+        if(preMove - ship.x <= 40 && preMove > ship.x) SDL_RenderCopy(renderer, playerIMG[PLAYER_LEFTMID], NULL, &ship);
         if(preMove == ship.x) SDL_RenderCopy(renderer, playerIMG[PLAYER_MID], NULL, &ship);
     }
     preMove = ship.x;
@@ -47,12 +47,23 @@ void PlayerShip::updatePos(){
     hitBox.y = ship.y + 10;
 }
 
-bool PlayerShip::renderDead(SDL_Renderer* renderer){
+bool PlayerShip::renderDead(SDL_Renderer* renderer, Interface &itf, SDL_Event &e){
     static int ani = 0;
-    if(ani == 30) return true;
+    if(ani == 30){
+        itf.text.render(renderer, "Game Over!", 320, 400, 0.75, false);
+        itf.text.render(renderer, "Your Score: " + to_string(itf.score), 320, 450, 0.5, false);
+        itf.text.render(renderer, "Press Enter to restart", 200, 750, 0.5 , true);
+        if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
+            ani = 0;
+            return true;
+        }
+        return false;
+    }
+    else{
     SDL_RenderCopy(renderer, explosionIMG[ani/6], NULL, &ship);
     ani++;
     return false;
+    }
 }
 
 bool PlayerShip:: renderGetDame(SDL_Renderer *renderer){
