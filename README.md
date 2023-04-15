@@ -22,11 +22,8 @@ Bước 2: Tải file zip game và giải nén, mở "ChickenInvaders.cbp" và c
    Có thể chơi, tính điểm, có menu lúc bắt đầu.
    
    Đang hoàn thiện:
-      - Menu.
-      - Sound.
-      - Thêm 1 Boss.
-      - Chơi lại khi chết.
-      - 
+   - Menu
+   - Sound
 
 ## Contact
    22028165@vnu.edu.vn
