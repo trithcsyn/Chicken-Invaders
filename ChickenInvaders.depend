@@ -3,7 +3,7 @@
 	"SDL_utils.h"
 	"game_constans.h"
 
-1681043557 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\sdl_utils.h
+1681466782 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\sdl_utils.h
 	<vector>
 	<ctime>
 	<iostream>
@@ -12,14 +12,15 @@
 	<SDL_ttf.h>
 	<string>
 	<fstream>
+	<cmath>
 
-1680949732 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\game_constans.h
+1681462189 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\game_constans.h
 	<SDL.h>
 
-1681293677 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\menu\menu.cpp
+1681462188 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\menu\menu.cpp
 	"menu.h"
 
-1681294856 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\menu\menu.h
+1681462189 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\menu\menu.h
 	"../Manager/Font.h"
 
 1680947141 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\background.cpp
@@ -29,7 +30,7 @@
 	"../Manager/game_constans.h"
 	"../Manager/SDL_utils.h"
 
-1681287456 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\bullet.cpp
+1681545798 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\bullet.cpp
 	"Bullet.h"
 
 1681294856 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\bullet.h
@@ -45,7 +46,7 @@
 1681294758 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\chicken_invaders.cpp
 	"Source/Core/core.h"
 
-1681294856 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\core\core.h
+1681358432 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\core\core.h
 	"../Manager/SDL_utils.h"
 	"../Manager/game_constans.h"
 	"../Manager/Font.h"
@@ -57,28 +58,28 @@
 	"../Object/Egg.h"
 	"../Object/Gift.h"
 
-1681294856 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\chicken.h
+1681549747 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\chicken.h
 	"../Menu/menu.h"
 	"PlayerShip.h"
 	"Bullet.h"
 
-1681294856 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\egg.h
+1681540185 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\egg.h
 	"Chicken.h"
 	"PlayerShip.h"
 
 1681294856 c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\gift.h
 	"PlayerShip.h"
 
-1681294573 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\core\core.cpp
+1681549536 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\core\core.cpp
 	"core.h"
 
-1681288924 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\chicken.cpp
+1681546469 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\chicken.cpp
 	"Chicken.h"
 
-1681281121 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\egg.cpp
+1681540255 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\egg.cpp
 	"Egg.h"
 
-1680947113 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\gift.cpp
+1681545433 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\gift.cpp
 	"Gift.h"
 
 1681289413 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\object\playership.cpp
@@ -90,6 +91,6 @@
 	"SDL_utils.h"
 	<map>
 
-1681294536 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\font.cpp
+1681294856 source:c:\users\admin\desktop\sdl project 2023\chickeninvaders\source\manager\font.cpp
 	"Font.h"
 

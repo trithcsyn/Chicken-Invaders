@@ -22,7 +22,7 @@ void Gift ::checkCollision(PlayerShip &player, int &level){
             gifts.erase(gifts.begin() + i);
             i--;
             level++;
-            if(level == 7) level = 6;
+            if(level == 8) level = 7;
             continue;
         }
     }

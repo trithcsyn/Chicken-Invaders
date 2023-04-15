@@ -66,6 +66,7 @@ void Interface::init(SDL_Renderer* renderer){
         if(!file.is_open()) cout << "no";
         file >> highScore;
         file.close();
+        wave = 1;
     }
 void Interface::renderScore(SDL_Renderer* renderer){
     static int tempScore = 0;
@@ -73,7 +74,7 @@ void Interface::renderScore(SDL_Renderer* renderer){
     if(score > tempScore){
         text.texts[to_string(tempScore)] = nullptr;
         text.texts.erase(to_string(tempScore));
-        text.render(renderer, to_string(tempScore += 100), LEFT_EDGE + 115 , 750, 0.5, false);
+        text.render(renderer, to_string(tempScore += 500), LEFT_EDGE + 115 , 750, 0.5, false);
     }
     if(score == tempScore) text.render(renderer, to_string(score), LEFT_EDGE + 115 , 750, 0.5, false);
 }
@@ -94,10 +95,12 @@ void Interface::saveScore(){
         score = 0;
     }
 void Interface::renderHighScore(SDL_Renderer *renderer){
+    if(score > highScore) highScore = score;
     string textLine = "High score: " + to_string(highScore);
     if(text.texts.find(textLine) == text.texts.end()){
      text.texts.insert( make_pair(textLine, text.getTexture(textLine, renderer)) );
     }
+
     SDL_Rect dst;
     SDL_QueryTexture(text.texts[textLine], NULL, NULL, &dst.w, &dst.h);
     dst.w *= 0.5;

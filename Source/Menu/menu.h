@@ -21,6 +21,7 @@ public:
     int score;
     Text text;
     int highScore;
+    int wave;
 
     void init(SDL_Renderer* renderer);
     void renderScore(SDL_Renderer* renderer);

@@ -24,6 +24,7 @@ public:
     Background background;
     Bullet bullets;
     Chicken chickens;
+    BigChicken boss;
     Egg eggs;
     Gift giftt;
     SDL_Event e;

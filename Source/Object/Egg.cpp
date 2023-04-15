@@ -20,6 +20,16 @@ void Egg::render(SDL_Renderer* renderer){
         }
     }
 }
+void Egg::add(const BigChicken &boss){
+    if(boss.status == WAIT || boss.status == DEAD) return;
+    static Uint32 lastTime = SDL_GetTicks();
+    Uint32 currentTime = SDL_GetTicks();
+    if(currentTime - lastTime >= 200){
+        eggs.push_back({{boss.hitBox.x + 30 + rand() % 181 ,boss.hitBox.y + 150 , 26, 32}, rand() % 2 + 2 });
+        lastTime = currentTime;
+    }
+
+}
 
 bool Egg::checkCollision(PlayerShip &player, int &level){
     bool check = false;

@@ -41,13 +41,13 @@ void Bullet ::add(PlayerShip &player){
             bullet2.push_back( {player.ship.x + 50, player.ship.y - 20, 17 ,99});
             bullet2.push_back( {player.ship.x + 67, player.ship.y , 17, 99});
         }
-//        if(level == 7){
-//            bullet3.push_back( {player.ship.x - 25, player.ship.y - 5, 25, 108});
-//            bullet3.push_back( {player.ship.x, player.ship.y - 20, 25, 108});
-//            bullet3.push_back( {player.ship.x + 25, player.ship.y - 40, 25, 108});
-//            bullet3.push_back( {player.ship.x + 50, player.ship.y - 20, 25, 108});
-//            bullet3.push_back( {player.ship.x + 75, player.ship.y - 5, 25, 108});
-//        }
+        if(level == 7){
+            bullet3.push_back( {player.ship.x - 5, player.ship.y - 5, 25, 108});
+            bullet3.push_back( {player.ship.x + 10, player.ship.y - 20, 25, 108});
+            bullet3.push_back( {player.ship.x + 25, player.ship.y - 30, 25, 108});
+            bullet3.push_back( {player.ship.x + 40, player.ship.y - 20, 25, 108});
+            bullet3.push_back( {player.ship.x + 55, player.ship.y - 5, 25, 108});
+        }
         lastTime = currentTime;
     }
 }

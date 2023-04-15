@@ -23,6 +23,11 @@ const int LEFT_EDGE = 36;
 const int RIGHT_EDGE = 764;
 const int TOP_EDGE = 30;
 
+//Status
+const int WAIT = 0;
+const int ADD = 1;
+const int ALIVE = 2;
+const int DEAD = 3;
 //Color:
 const SDL_Color CYAN_COLOR = {0, 255, 255};
 const SDL_Color BLUE_COLOR = {0, 0, 255};

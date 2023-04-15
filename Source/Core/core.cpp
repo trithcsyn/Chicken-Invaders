@@ -11,7 +11,8 @@ void Core::init(){
     eggs.init(renderer);
     giftt.init(renderer);
     itf.init(renderer);
-
+    boss.init(renderer);
+    srand(time(0));
 
 }
 
@@ -33,18 +34,30 @@ int Core::runGame(){
             SDL_Event e;
             background.render(renderer);
             while(SDL_PollEvent(&e)){
-                if(e.type == SDL_QUIT){
-                    quit = true;
-                    play = false;
-                }
+                if(e.type == SDL_QUIT) return 0;
                 if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN){
                      if(player.hp <= 0)
                         if(player.renderDead(renderer, itf, e)){
-                            bullets.level = 1;
-                            player.hp = 5;
-                            chickens.chicken.clear();
-                            chickens.hp = 0;
                             itf.saveScore();
+                            itf.wave = 1;
+                            player.hp = 5;
+                            player.getdame = false;
+
+                            chickens.hp = 1;
+                            chickens.chicken.clear();
+                            chickens.status = ADD;
+                            chickens.add();
+
+                            boss.add(itf);
+                            boss.status = WAIT;
+
+                            eggs.eggs.clear();
+
+                            bullets.level = 1;
+                            bullets.bullet1.clear();
+                            bullets.bullet2.clear();
+                            bullets.bullet3.clear();
+
                         }
                 }
                 if(e.type == SDL_MOUSEBUTTONDOWN && e.button.button == SDL_BUTTON_LEFT){
@@ -54,6 +67,7 @@ int Core::runGame(){
                     bullets.adding = false;
                 }
             }
+            bullets.render(renderer);
             if(player.hp > 0){
                 itf.renderScore(renderer);
                 bullets.add(player);
@@ -69,23 +83,36 @@ int Core::runGame(){
             }
             giftt.render(renderer);
             giftt.checkCollision(player, bullets.level);
-            bullets.render(renderer);
             eggs.render(renderer);
             chickens.render(renderer, giftt.gifts, itf);
             chickens.renderDead(renderer);
-            if(chickens.checkCollision(bullets)){
+            chickens.checkCollision(bullets);
+            boss.render(renderer, itf);
+            eggs.add(boss);
+            boss.checkCollision(bullets, player, itf);
+
+            if(chickens.status == DEAD){
+                boss.status = ADD;
                 chickens.hp++;
                 chickens.add();
-                chickens.adding = 1;
+                chickens.status = WAIT;
             }
+            if(boss.status == DEAD){
+                if(boss.renderDead(renderer)){
+                    itf.wave++;
+                    chickens.status = ADD;
+                    boss.add(itf);
+                    boss.status = WAIT;
+                }
+            }
+
+
+
             itf.renderHighScore(renderer);
             itf.renderHeart(renderer, player.hp);
             if(player.hp <= 0) player.renderDead(renderer, itf, e);
             player.updatePos();
             SDL_RenderPresent(renderer);
-        }
-        if(quit){
-            return 0;
         }
     }
     return 0;

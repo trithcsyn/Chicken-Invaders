@@ -20,6 +20,7 @@ public:
     void add(const std::vector<RectChicken> &chicken);
     void render(SDL_Renderer* renderer);
     bool checkCollision(PlayerShip &player, int &level);
+    void add(const BigChicken &boss);
 };
 
 #endif // EGG_H

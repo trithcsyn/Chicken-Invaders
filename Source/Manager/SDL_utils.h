@@ -9,6 +9,7 @@
 #include<SDL_ttf.h>
 #include<string>
 #include<fstream>
+#include<cmath>
 using namespace std;
 
 
